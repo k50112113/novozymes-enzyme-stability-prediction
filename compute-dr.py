@@ -64,7 +64,7 @@ res_indices = range(target_res_index-res_range,target_res_index+res_range+1)
 # res_indices = 'all'
 for a_folder in folder:
     print(a_folder, end='\r')
-    coord_mu, element_mu = read_xyz('%s/md-traj-kabsch-com.xyz'%(a_folder))
+    coord_mu, element_mu = read_xyz('../md%s/md-traj-kabsch-com.xyz'%(a_folder))
     coord_mu = recenter(coord_mu[cutoff:])
     # coord_mu = coord_mu[cutoff:]
     if res_indices == 'all':

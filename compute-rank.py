@@ -30,9 +30,9 @@ with open("msd-1ps.txt","r") as fin:
 
 seq_id_list = [i for i in range(31390,33802+1)]
 
-foutaa = open("submisstion-aa.csv","w")
+foutaa = open("submission-aa.csv","w")
 foutaa.write("seq_id,tm\n")
-foutbb = open("submisstion-bb.csv","w")
+foutbb = open("submission-bb.csv","w")
 foutbb.write("seq_id,tm\n")
 for seq_id in seq_id_list:
     mutation = seq_id_mutation_map[seq_id]

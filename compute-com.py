@@ -96,21 +96,6 @@ def get_atom_type_indices_map(element):
     'C-bb': [i for i, x in enumerate(element) if x == "C" or x == "CA"]}
     return atom_type_indices_map
 
-# p = os.popen("find %s -type %s -name %s"%('.','d','\"*\"'))
-# folder = p.read().split('\n')
-# folder.pop()
-# del folder[0]
-# folder = sorted(folder)
-# for i in range(len(folder)): folder[i] = folder[i].replace('./', "")
-# fout = open("msd-1ps.txt","w")
-# fout.write('mutation ')
-# for sufix in ['N','C','O','S','H','N-bb','C-bb']: fout.write("%10s "%(sufix))
-# fout.write('\n')
-# foutstd = open("msd-1ps-std.txt","w")
-# foutstd.write('mutation ')
-# for sufix in ['N','C','O','S','H','N-bb','C-bb']: foutstd.write("%10s "%(sufix))
-# foutstd.write('\n')
-
 folder = sys.argv[1:]
 dr_list = []
 for a_folder in folder:
