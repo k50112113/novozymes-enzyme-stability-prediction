@@ -10,7 +10,7 @@ compute-dr-all-atom: compute MSD from md-traj-kabsch.xyz, output = msd-*.txt, ms
 compute-dr: compute MSD from md-traj-kabsch-com.xyz
 
 #csv output
-compute rank: compute ranking from msd-*.txt
+compute rank: compute ranking from msd-*.txt, output = submission*.csv
 
 #MD simulation
 How to run MD simulation using Gromacs: please see md_simulation/gro_script.sh
