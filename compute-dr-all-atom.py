@@ -21,6 +21,11 @@ foutstd.write('mutation ')
 for sufix in ['N','C','O','S','H','N-bb','C-bb']: foutstd.write("%10s "%(sufix))
 foutstd.write('\n')
 
+foutn = open("number_of_atoms.txt","w")
+foutn.write('mutation ')
+for sufix in ['N','C','O','S','H','N-bb','C-bb']: foutn.write("%7s "%(sufix))
+foutn.write('\n')
+
 for a_folder in folder:
     print(a_folder)
     filename = a_folder + '/md-traj-kabsch.xyz'
@@ -46,6 +51,11 @@ for a_folder in folder:
     'N-bb': [i for i, x in enumerate(element) if x == "N"],
     'C-bb': [i for i, x in enumerate(element) if x == "C" or x == "CA"]}
 
+    n = [indices[i] for i in indices.keys()]
+    foutn.write('%8s '%(folder[i]))
+    for a in n: foutn.write('%7s '%(a))
+    foutn.write('\n')
+
     coord = np.array(coord)[100:]
     n_frames = len(coord)
     natom = len(coord[0])
@@ -63,6 +73,7 @@ for a_folder in folder:
     fout.write('\n')
     foutstd.write('\n')
 
+foutn.close()
 fout.close()
 foutstd.close()
 

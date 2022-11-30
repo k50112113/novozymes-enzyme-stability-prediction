@@ -1,0 +1,16 @@
+
+single-mutation-map.py: map mutation type to seq_id, output = single-mutation-map.txt
+
+#trajectory post-processing
+compute-kabsch: convert md-traj.xyz to md-traj-kabsch.xyz
+compute-com.py: convert md-traj-kabsch.xyz to md-traj-kabsch-com.xyz
+
+#data analysis
+compute-dr-all-atom: compute MSD from md-traj-kabsch.xyz, output = msd-*.txt, msd-*-std.txt, number_of_atoms.txt
+compute-dr: compute MSD from md-traj-kabsch-com.xyz
+
+#csv output
+compute rank: compute ranking from msd-*.txt
+
+#MD simulation
+How to run MD simulation using Gromacs: please see md_simulation/gro_script.sh
