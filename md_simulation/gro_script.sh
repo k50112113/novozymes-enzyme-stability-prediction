@@ -1,6 +1,6 @@
 #module load openmpi/4.1.0-gcc-7.2.0
 
-#makesure a correct mpirun is in your PATH
+#make sure a correct mpirun is in your PATH
 export $gmx_path=path/to/gmx_mpi or path/to/gmx
 #<protein>.pdb = path/to/protein.pdb
 
@@ -16,5 +16,5 @@ mpirun -np 8 $gmx_double_path mdrun -v -ntomp 8 -deffnm min-sd                  
 #run MD simulation.
 $gmx_double_path grompp -f md.mdp -c min-sd.gro -p topol.top -o md.tpr                                          # precompile a run for MD:           min-sd.gro, min.mdp, topol.top                              -> md.tpr
 mpirun -np 8 $gmx_double_path mdrun -v -ntomp 8 -deffnm md                                                      # run MD:                            md.tpr                                                      -> md.trr             
-#extract protein trajectory (Not necessary).
+#extract trajectory only for protein.
 $gmx_path trjconv -f md.trr -s md.tpr -o md-traj.gro -center                                                    # extract (select 1, and 1):         md.trr, md.tpr                                              -> md-traj.gro
