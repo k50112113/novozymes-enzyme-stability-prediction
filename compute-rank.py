@@ -1,10 +1,7 @@
 import os
 import sys
 import numpy as np
-sys.path.insert(1,os.path.expanduser('~')+'/python-include/')
 from ZLabPlot import ZLabPlot
-import ReadMD as RM
-
 
 atom_mass = np.array([14.0067,12.011,15.9994,32.06,1.00797,14.0067,12.011])
 
@@ -22,7 +19,7 @@ with open("number_of_atoms.txt","r") as fin:
         mutation_natom_map[linelist[0]] = np.array([int(i) for i in linelist[1:]])
 
 mutation_msd_map = {}
-with open("msd-1ps.txt","r") as fin:
+with open("msd-0.1ps.txt","r") as fin:
     fin.readline()
     for aline in fin:
         linelist = aline.strip().split()

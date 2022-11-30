@@ -2,6 +2,27 @@ import numpy as np
 import os
 import sys
 
+def read_xyz(xyzfile):
+    #argument
+    #   xyzfile (string):       xyz filename
+    #return
+    #   coord (numpy 3D array): coord, (n_frame, n_atom, 3)
+    #   element (list):         atom type
+    coord = []
+    element = []
+    with open(xyzfile,'r') as fin:
+        i = 0
+        for aline in fin:
+            linelist = aline.strip().split()
+            if len(linelist) > 3:
+                if i == 1: element.append(linelist[0])
+                coord[-1].append([float(i) for i in linelist[1:]])
+            elif len(linelist) == 1:
+                i += 1
+                coord.append([])
+    coord = np.array(coord)
+    return coord, element
+
 prefix = sys.argv[1]
 p = os.popen("find %s -type %s -name %s"%('.','d','\"%s*\"'%(prefix)))
 # p = os.popen("find %s -type %s -name %s"%('.','d','\"*\"'))
@@ -11,12 +32,12 @@ del folder[0]
 folder = sorted(folder)
 for i in range(len(folder)): folder[i] = folder[i].replace('./', "")
 
-fout = open("msd-1ps.txt","w")
+fout = open("msd-0.1ps.txt","w")
 fout.write('mutation ')
 for sufix in ['N','C','O','S','H','N-bb','C-bb']: fout.write("%10s "%(sufix))
 fout.write('\n')
 
-foutstd = open("msd-1ps-std.txt","w")
+foutstd = open("msd-0.1ps-std.txt","w")
 foutstd.write('mutation ')
 for sufix in ['N','C','O','S','H','N-bb','C-bb']: foutstd.write("%10s "%(sufix))
 foutstd.write('\n')
@@ -28,19 +49,7 @@ foutn.write('\n')
 
 for a_folder in folder:
     print(a_folder)
-    filename = a_folder + '/md-traj-kabsch.xyz'
-    coord = []
-    element = []
-    with open(filename,'r') as fin:
-        i = 0
-        for aline in fin:
-            linelist = aline.strip().split()
-            if len(linelist) > 3:
-                if i == 1: element.append(linelist[0])
-                coord[-1].append([float(i) for i in linelist[1:]])
-            elif len(linelist) == 1:
-                i += 1
-                coord.append([])
+    coord, element = read_xyz('%s/md-traj-kabsch.xyz'%(a_folder))
 
     indices = {\
     'N': [i for i, x in enumerate(element) if x[0] == "N"],
