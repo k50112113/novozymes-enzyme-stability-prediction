@@ -67,7 +67,6 @@ folder.pop()
 del folder[0]
 folder = sorted(folder)
 for i in range(len(folder)): folder[i] = folder[i].replace('./', "")
-folder.remove('WT')
 folder.remove('wild')
 cutoff = 100
 window = 1
@@ -77,26 +76,33 @@ coord_wt, element_wt = read_xyz('WT/md-traj-kabsch-com.xyz')
 coord_wt = coord_wt[cutoff:]
 dr_wt = compute_dr_time_avg(coord_wt, 'all', window)
 
-seq_length = len(element_wt)
 
 fout = open("res-com-msd-ratio-range=%d.txt"%(res_range), 'w')
 fout.write("mutation %12s %12s %12s\n"%('dr_mu','dr_wt','dr_mu/dr_wt'))
 
 for i in range(len(folder)):
     coord_mu, element_mu = read_xyz('%s/md-traj-kabsch-com.xyz'%(folder[i]))
+    seq_length = len(element_mu)
     coord_mu = coord_mu[cutoff:]
-    if ord('Z') >= ord(folder[i][-1]) >= ord('A'):
+    if folder[i] == 'WT':
+        print(i, folder[i])
+        dr_mu_tmp = 1.0
+        dr_wt_tmp = 1.0
+    elif ord('Z') >= ord(folder[i][-1]) >= ord('A'):
         target_res_index = int(folder[i][1:-1]) - 1
+        lowerbound = max(target_res_index-res_range, 0)
         upperbound = min(target_res_index+1+res_range, seq_length)
-        res_indices_mu = range(target_res_index-res_range, upperbound)
+        res_indices_mu = range(lowerbound, upperbound)
         res_indices_wt = res_indices_mu
         print(i, folder[i], list(res_indices_mu))
     else:
         target_res_index = int(folder[i][1:]) - 1
+        lowerbound = max(target_res_index-1-res_range, 0)
         upperbound = min(target_res_index+1+res_range, seq_length)
-        res_indices_mu = range(target_res_index-1-res_range, upperbound)
+        res_indices_mu = range(lowerbound, upperbound)
+        lowerbound = max(target_res_index-1-res_range, 0)
         upperbound = min(target_res_index+1+1+res_range, seq_length)
-        res_indices_wt = range(target_res_index-1-res_range, upperbound)
+        res_indices_wt = range(lowerbound, upperbound)
         res_indices_wt = list(res_indices_wt)
         res_indices_wt.remove(target_res_index)
         print(i, folder[i], list(res_indices_wt), list(res_indices_mu))

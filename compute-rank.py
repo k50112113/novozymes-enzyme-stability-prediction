@@ -1,7 +1,6 @@
 import os
 import sys
 import numpy as np
-from ZLabPlot import ZLabPlot
 
 atom_mass = np.array([14.0067,12.011,15.9994,32.06,1.00797,14.0067,12.011])
 
@@ -31,16 +30,15 @@ foutaa = open("submission-aa.csv","w")
 foutaa.write("seq_id,tm\n")
 foutbb = open("submission-bb.csv","w")
 foutbb.write("seq_id,tm\n")
+foutrescom = open("submission-res-com-range=5.csv","w")
+foutrescom.write("seq_id,tm\n")
 for seq_id in seq_id_list:
     mutation = seq_id_mutation_map[seq_id]
     natom_mass = mutation_natom_map[mutation]*atom_mass
     msd = mutation_msd_map[mutation]
-    
     weighted_msd = msd*natom_mass
-
     weighted_msd_aa = np.sum(weighted_msd[:-2])/np.sum(natom_mass[:-2])
     weighted_msd_bb = np.sum(weighted_msd[-2:])/np.sum(natom_mass[-2:])
-
     foutaa.write("%d,%f\n"%(seq_id,1.0/weighted_msd_aa))
     foutbb.write("%d,%f\n"%(seq_id,1.0/weighted_msd_bb))
     print(seq_id, mutation, weighted_msd_aa, weighted_msd_bb)
