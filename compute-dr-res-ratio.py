@@ -36,14 +36,12 @@ def recenter(coord):
 def compute_dr(coord, res_indices, window = 1):
     #compute sqrt(<dr(t)^2>)
     if res_indices == 'all': coord_res = coord
-    elif res_indices == 'trim': coord_res = coord[:,20:,:]
     else: coord_res = coord[:,res_indices,:]
     dr = np.mean((coord_res[:-window]-coord_res[window:])**2, axis = (1, 2))**0.5
     return dr
 
 def compute_dr_time_avg(coord, res_indices, window):
     if res_indices == 'all': coord_res = coord
-    elif res_indices == 'trim': coord_res = coord[:,20:,:]
     else: coord_res = coord[:,res_indices,:]
     dr_time_avg = np.mean(np.sum((coord_res[:-window]-coord_res[window:])**2, axis = 2), axis = 0)**0.5
     return dr_time_avg
@@ -51,7 +49,6 @@ def compute_dr_time_avg(coord, res_indices, window):
 def compute_r_r0(coord, res_indices):
     #compute |r(t)-r(0)|
     if res_indices == 'all': r = np.mean(np.sum(coord_mu[:,:,:]**2, axis = 2), axis = 1)**0.5
-    elif res_indices == 'trim': r = np.mean(np.sum(coord_mu[:,20:,:]**2, axis = 2), axis = 1)**0.5
     else: r = np.mean(np.sum(coord_mu[:,res_indices,:]**2, axis = 2), axis = 1)**0.5
     return r
 
@@ -129,7 +126,6 @@ fout.close()
 # res_range = 0
 # res_indices = range(target_res_index-res_range,target_res_index+res_range+1)
 # res_indices = 'all'
-# res_indices = 'trim'
 # for a_folder in folder:
 #     print(a_folder, end='\r')
 #     coord_mu, element_mu = read_xyz('%s/md-traj-kabsch-com.xyz'%(a_folder))
